@@ -2,7 +2,6 @@
 
 clear all; close all; clc;
 
-%{
 % Install and compile MatConvNet (needed once).
 untar('http://www.vlfeat.org/matconvnet/download/matconvnet-1.0-beta25.tar.gz') ;
 cd matconvnet-1.0-beta25
@@ -12,7 +11,6 @@ run matlab/vl_compilenn ;
 urlwrite(...
   'http://www.vlfeat.org/matconvnet/models/imagenet-vgg-s.mat', ...
   'imagenet-vgg-s.mat') ;
-%}
 
 % Setup MatConvNet.
 run matlab/vl_setupnn ;
@@ -41,6 +39,7 @@ for i = 0:354
             res = vl_simplenn(net, im_) ;
             
             % Save results as csv.
+            % FIXME not sure if this res(end-4) is the fc6 layer...
             csvwrite(strcat(outerDir, innerDir, file.name(1:end-4), '.csv'), res(end-4).x) ;
         catch
             warning(file.name) ;
